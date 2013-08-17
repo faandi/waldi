@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LocalRepository>
+    <Name>tmplocalrep</Name>
+    <PackageDir>file://~/packages/</PackageDir>
+  </LocalRepository>
+  <RemoteRepository>
+    <Name>tmpremoterep</Name>
+    <PackageDir>file:///C:/Tmp/packagerepository/</PackageDir>
+  </RemoteRepository>
+</Config>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>package4</Name>
+  <Description>mydescription_package4</Description>
+  <Url>http://myurl_package4.com</Url>
+  <Versions>
+  	<Version>
+      <Name>4.1</Name>
+    </Version>
+    <Version>
+      <Name>4.4</Name>
+    </Version>
+  </Versions>
+  <Dependencies>
+    <Dependency>
+      <Name>package2.feature1</Name>
+      <Version>
+      	<Name>2.2</Name>
+      </Version>
+    </Dependency>
+    <Dependency>
+      <Name>package1</Name>
+      <Version>
+      	<Name>1.1</Name>
+      </Version>
+    </Dependency>
+  </Dependencies>
+  <Features>
+    <Feature>
+      <Name>feature1</Name>
+      <Description>description_feature1</Description>
+      <Url>http://myurl_feature1.com/feat</Url>
+    </Feature>
+    <Feature>
+      <Name>feature2</Name>
+      <Description>description_feature2</Description>
+      <Url>http://myurl_feature2.com/feat</Url>
+    </Feature>
+  </Features>
+</Package>

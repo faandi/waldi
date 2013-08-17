@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>package1</Name>
+  <Description>mydescription_package1</Description>
+  <Url>http://myurl_package1.com</Url>
+  <IsMaster>true</IsMaster>
+  <Versions>
+    <Version>
+      <Name>1.1</Name>
+    </Version>
+    <Version>
+      <Name>1.2</Name>
+    </Version>
+  </Versions>
+</Package>

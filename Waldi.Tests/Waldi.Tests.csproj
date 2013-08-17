@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7A428C5C-CD1B-478B-AA84-B33F2E97F87A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Waldi.Tests</RootNamespace>
+    <AssemblyName>Waldi.Tests</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Engine\DependencyResolverTests.cs" />
+    <Compile Include="Engine\InvalidArgumentsTests.cs" />
+    <Compile Include="Serialization\SerializationTests.cs" />
+    <Compile Include="TestHelpers\ItemDeployment.cs" />
+    <Compile Include="Repositories\DirectoryPackageRepositoryTests.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Engine\" />
+    <Folder Include="Serialization\" />
+    <Folder Include="Testdata\" />
+    <Folder Include="TestHelpers\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Testdata\packagerepository\package1\package.wpdef" />
+    <None Include="Testdata\packagerepository\package2\package.wpdef" />
+    <None Include="Testdata\packagerepository\package3\package.wpdef" />
+    <None Include="Testdata\packagerepository\package4\package.wpdef" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Waldi.Lib\Waldi.Lib.csproj">
+      <Project>{C4AA549D-CE10-4DB8-A662-7EF7C81AE6E1}</Project>
+      <Name>Waldi.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

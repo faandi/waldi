@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C4AA549D-CE10-4DB8-A662-7EF7C81AE6E1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Waldi.Lib</RootNamespace>
+    <AssemblyName>Waldi.Lib</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Packages\BasicPackage.cs" />
+    <Compile Include="Packages\Feature.cs" />
+    <Compile Include="Packages\FeatureList.cs" />
+    <Compile Include="Packages\PackageList.cs" />
+    <Compile Include="Packages\PackageVersion.cs" />
+    <Compile Include="Packages\VersionQualifier.cs" />
+    <Compile Include="Engine\Dependency.cs" />
+    <Compile Include="Engine\DependencyList.cs" />
+    <Compile Include="Engine\File.cs" />
+    <Compile Include="Engine\FileList.cs" />
+    <Compile Include="Engine\FileType.cs" />
+    <Compile Include="Engine\INamedItem.cs" />
+    <Compile Include="Engine\NamedItemList.cs" />
+    <Compile Include="Engine\DependencyResolver.cs" />
+    <Compile Include="Engine\InvalidDependencyException.cs" />
+    <Compile Include="BclExtensions\DirectoryInfoExtensions.cs" />
+    <Compile Include="BclExtensions\PathExtensions.cs" />
+    <Compile Include="Repositories\DirectoryPackageRepository.cs" />
+    <Compile Include="Repositories\IPackageRepository.cs" />
+    <Compile Include="Engine\Builder.cs" />
+    <Compile Include="Serialization\Dto.cs" />
+    <Compile Include="Serialization\WaldiSerializer.cs" />
+    <Compile Include="Packages\IPackage.cs" />
+    <Compile Include="Serialization\Converters.cs" />
+    <Compile Include="BclExtensions\UriExtensions.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Serialization\" />
+    <Folder Include="Packages\" />
+    <Folder Include="Engine\" />
+    <Folder Include="BclExtensions\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Repositories\MultiPackageRepository.cs" />
+  </ItemGroup>
+</Project>

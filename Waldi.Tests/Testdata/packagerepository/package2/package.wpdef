@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>package2</Name>
+  <Description>mydescription_package2</Description>
+  <Url>http://myurl_package2.com</Url>
+  <IsMaster>true</IsMaster>
+  <Versions>
+    <Version>
+      <Name>2.1</Name>
+    </Version>
+    <Version>
+      <Name>2.2</Name>
+    </Version>
+  </Versions>
+  <Dependencies>
+    <Dependency>
+      <Name>package1</Name>
+      <Version>
+        <Name>1.1</Name>
+      </Version>
+      <IsOptional>false</IsOptional>
+    </Dependency>
+  </Dependencies>
+  <Features>
+    <Feature>
+      <Name>feature1</Name>
+      <Description>description_feature1</Description>
+      <Url>http://myurl_feature1.com/feat</Url>
+    </Feature>
+  </Features>
+</Package>
