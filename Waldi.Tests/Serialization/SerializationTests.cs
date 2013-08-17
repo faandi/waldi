@@ -67,9 +67,13 @@ namespace Waldi.Tests
         [Test]
         public void SerializeRepository()
         {
-            DirectoryPackageRepository repository = new DirectoryPackageRepository("myrep", Path.GetTempPath());
+            // just make shure test works on different platforms
+            string reppath = Path.GetTempPath();
+            string reppathuri = (new Uri(reppath)).AbsoluteUri;
+            // here comes the test
+            DirectoryPackageRepository repository = new DirectoryPackageRepository("myrep", reppath);
             string repositorystring = WaldiSerializer.Serialize (repository);
-            string expected = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<PackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>file:///C:/Users/fachi/AppData/Local/Temp/</PackageDir>\r\n</PackageRepository>";
+            string expected = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<PackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>" + reppathuri + "</PackageDir>\r\n</PackageRepository>";
             Assert.AreEqual (expected, repositorystring);
         }
 
@@ -111,7 +115,11 @@ namespace Waldi.Tests
         [Test]
         public void DeserializeRepository()
         {
-            string repositorystring = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<PackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>file:///C:/Users/fachi/AppData/Local/Temp/</PackageDir>\r\n</PackageRepository>";
+            // just make shure test works on different platforms
+            string reppath = Path.GetTempPath();
+            string reppathuri = (new Uri(reppath)).AbsoluteUri;
+            // here comes the test
+            string repositorystring = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<PackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>" + reppathuri + "</PackageDir>\r\n</PackageRepository>";
             DirectoryPackageRepository repository = WaldiSerializer.DeserializePackageRepository (repositorystring) as DirectoryPackageRepository;
             DirectoryPackageRepository expected = new DirectoryPackageRepository("myrep", Path.GetTempPath());
             Assert.AreEqual (expected, repository);
