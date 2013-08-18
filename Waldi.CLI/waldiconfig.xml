@@ -6,6 +6,6 @@
   </LocalRepository>
   <RemoteRepository>
     <Name>tmpremoterep</Name>
-    <PackageDir>file:///C:/Tmp/packagerepository/</PackageDir>
+    <PackageDir>file://~/../../../Waldi.Tests/Testdata/packagerepository//</PackageDir>
   </RemoteRepository>
 </Config>

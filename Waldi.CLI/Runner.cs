@@ -33,12 +33,22 @@ namespace Waldi.CLI
             }
             foreach (string pname in allpkgnames)
             {
-                // TODO: hardcoder !!
-                string pkgpath = "/tmp/rep/" + pname;
-                Directory.CreateDirectory(pkgpath);
-                this.RemoteRep.CopyPackageFiles(pname, pkgpath);
-                Console.Write("{0}Copied package " + pname + " to " + pkgpath, Environment.NewLine);
+                IPackage remotepkg = this.RemoteRep.GetPackage(pname);
+                if (remotepkg == null)
+                {
+                    Console.Write("{0}Error: Package " + pname + " not found in remote repository.", Environment.NewLine);
+                    return;
+                }
+                string tmppkgpath;
+                if (!PathExtensions.GetTempPath(out tmppkgpath))
+                {
+                    throw new Exception("Could not get a temporary directory.");
+                }
+                this.RemoteRep.CopyPackageFiles(pname, tmppkgpath);
+                this.LocalRep.AddPackage(remotepkg, tmppkgpath);
+                Console.Write("{0}Added package " + pname + " to local repository.", Environment.NewLine);
             }
+            Console.Write("{0}", Environment.NewLine);
         }
 
         public void List(bool listlocal, bool listremote, bool showdetails = false)
