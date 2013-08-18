@@ -109,3 +109,10 @@ UpgradeLog*.XML
 
 # Dolphin directory settings
 .directory
+
+# Nunit
+[Tt]est-[Rr]esult*/
+
+# OS junk files
+[Tt]humbs.db
+*.DS_Store
