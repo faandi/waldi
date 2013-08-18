@@ -63,6 +63,7 @@
     <Compile Include="Packages\IPackage.cs" />
     <Compile Include="Serialization\Converters.cs" />
     <Compile Include="BclExtensions\UriExtensions.cs" />
+    <Compile Include="BclExtensions\Exceptions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

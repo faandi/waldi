@@ -34,7 +34,7 @@ namespace Waldi.CLI
             foreach (string pname in allpkgnames)
             {
                 // TODO: hardcoder !!
-                string pkgpath = "C:\\Tmp\\packagerepository_local\\" + pname;
+                string pkgpath = "/tmp/rep/" + pname;
                 Directory.CreateDirectory(pkgpath);
                 this.RemoteRep.CopyPackageFiles(pname, pkgpath);
                 Console.Write("{0}Copied package " + pname + " to " + pkgpath, Environment.NewLine);

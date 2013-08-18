@@ -23,7 +23,8 @@ namespace Waldi.Tests
 				IO.Path.Combine("Testdata", "packagerepository", "package1", "package.wpdef"),
 				IO.Path.Combine("Testdata", "packagerepository", "package2", "package.wpdef"),
 				IO.Path.Combine("Testdata", "packagerepository", "package3", "package.wpdef"),
-				IO.Path.Combine("Testdata", "packagerepository", "package4", "package.wpdef")
+				IO.Path.Combine("Testdata", "packagerepository", "package4", "package.wpdef"),
+                IO.Path.Combine("Testdata", "newpackagefiles", "mytemplate.cshtml")
 			};
 			ItemDeployment.DeployFiles (filepaths, true);
 		}
@@ -73,6 +74,48 @@ namespace Waldi.Tests
 			// TODO: asserts
 		}
 
+        [Test]
+        public void AddPackage()
+        {
+            BasicPackage package = new BasicPackage ("mypackageNew1") {
+                Description = "mydescription",
+                Url = "http://myurl.test/",
+                IsMaster = true,
+                SelectedVersion = new PackageVersion("2.4")
+            };
+            package.Versions.Add (new PackageVersion ("1.0"));
+            package.Versions.Add (new PackageVersion ("2.3"));
+            package.Versions.Add (new PackageVersion ("2.4"));
+            package.Dependencies.Add (new Dependency ("mypackage2.myfeature1"));
+            package.Dependencies.Add (new Dependency ("mypackage2.myfeature2"));
+            package.Dependencies.Add (new Dependency ("mypackage3.myfeature1"));
+            package.Features.Add(new Feature("myfeature1"));
+            package.Features.Add(new Feature("myfeature2"));
+
+            string pkgdir = IO.Path.Combine("Testdata", "newpackagefiles");
+            string repdir = IO.Path.Combine("Testdata", "packagerepository");
+            IPackageRepository rep = new DirectoryPackageRepository("myrep", repdir);
+
+            rep.AddPackage(package, pkgdir);
+            rep.Refresh();
+
+            Assert.IsTrue(IO.Directory.Exists(IO.Path.Combine(repdir, "mypackageNew1")), "Package dir does not exist.");
+            Assert.IsTrue(IO.File.Exists(IO.Path.Combine(repdir, "mypackageNew1", "mytemplate.cshtml")), "Package files do not exist.");
+            Assert.IsTrue(IO.File.Exists(IO.Path.Combine(repdir, "mypackageNew1", "package.wpdef")), "Package definition file does not exist.");
+            Assert.IsNotNull(rep.GetPackage("mypackageNew1"), "New package not found in repository.");
+
+            this.Cleanup();
+        }
+
 		// TODO: test for void Refresh();
+
+        //[TestFixtureTearDown]
+        public void Cleanup()
+        {
+            string repdir = IO.Path.Combine("Testdata", "packagerepository");
+            IO.File.Delete(IO.Path.Combine(repdir, "mypackageNew1", "mytemplate.cshtml"));
+            IO.File.Delete(IO.Path.Combine(repdir, "mypackageNew1", "package.wpdef"));
+            IO.Directory.Delete(IO.Path.Combine(repdir, "mypackageNew1"));
+        }
 	}
 }

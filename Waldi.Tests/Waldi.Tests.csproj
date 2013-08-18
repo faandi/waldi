@@ -49,6 +49,7 @@
     <Folder Include="Testdata\" />
     <Folder Include="TestHelpers\" />
     <Folder Include="Repositories\" />
+    <Folder Include="Testdata\newpackagefiles\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -56,6 +57,7 @@
     <None Include="Testdata\packagerepository\package2\package.wpdef" />
     <None Include="Testdata\packagerepository\package3\package.wpdef" />
     <None Include="Testdata\packagerepository\package4\package.wpdef" />
+    <None Include="Testdata\newpackagefiles\mytemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Waldi.Lib\Waldi.Lib.csproj">

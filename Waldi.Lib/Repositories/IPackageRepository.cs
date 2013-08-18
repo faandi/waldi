@@ -16,5 +16,6 @@ namespace Waldi.Engine
 		IPackage GetPackage(string pkgname);
 		void Refresh();
 		void CopyPackageFiles(string pkgname, string pathtodestdir);
+        void AddPackage(IPackage pkg, string pathtosourcedir);
 	}
 }

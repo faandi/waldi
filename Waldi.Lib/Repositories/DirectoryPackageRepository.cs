@@ -4,6 +4,7 @@ using Waldi.Engine;
 using Waldi.Packages;
 using Waldi.Serialization;
 using Waldi.BclExtensions;
+using Waldi.Lib;
 
 namespace Waldi.Repositories
 {
@@ -77,7 +78,42 @@ namespace Waldi.Repositories
 			{
 				throw new ArgumentException ("Directory is not empty.", "pathtodestdir");
 			}
-			pkgdir.CopyTo (pathtodestdir, true);
+            pkgdir.CopyTo (destdir.FullName, true);
+        }
+
+        public void AddPackage(IPackage pkg, string pathtosourcedir)
+        {
+            if (pkg == null)
+            {
+                throw new ArgumentNullException("pkg");
+            }
+            if (this.GetPackage (pkg.Name) != null)
+            {
+                throw new ArgumentException ("A package named " + pkg.Name + " already exists.", "pkgname");
+            }
+            DirectoryInfo sourcedir = new DirectoryInfo (pathtosourcedir);
+            if (!sourcedir.Exists)
+            {
+                throw new DirectoryNotFoundException ();
+            }
+            string pkgdirpath = Path.Combine (this.PackageDir.FullName, pkg.Name);
+            DirectoryInfo destdir = new DirectoryInfo (pkgdirpath);
+            if (!destdir.Exists)
+            {
+                destdir.Create();
+            }
+            if (!destdir.IsEmpty ())
+            {
+                throw new DirectoryNotEmptyException ("Package destination directory is not empty.",destdir);
+            }
+            sourcedir.CopyTo (destdir.FullName, true);
+
+            // create package definition file
+            string pkgdefpath = Path.Combine(destdir.FullName, "package.wpdef");
+            using (Stream str = System.IO.File.OpenWrite(pkgdefpath))
+            {
+                WaldiSerializer.Serialize(pkg, str);
+            }
         }
 
 		protected IPackage ReadPackageDir(DirectoryInfo dir)
