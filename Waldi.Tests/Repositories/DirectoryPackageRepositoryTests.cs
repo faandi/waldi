@@ -71,7 +71,8 @@ namespace Waldi.Tests
 			IO.Directory.CreateDirectory (destdir);
 			rep.CopyPackageFiles ("package3", destdir);
 
-			// TODO: asserts
+            Assert.IsTrue(IO.Directory.Exists(destdir), "Package dir does not exist.");
+            Assert.IsTrue(IO.File.Exists(IO.Path.Combine(destdir, "package.wpdef")), "Not all package files copied.");
 		}
 
         [Test]
@@ -107,7 +108,20 @@ namespace Waldi.Tests
             this.Cleanup();
         }
 
-		// TODO: test for void Refresh();
+        [Test]
+        public void Refresh()
+        {
+            BasicPackage package = new BasicPackage("mypackageNew1");
+            string pkgdir = IO.Path.Combine("Testdata", "newpackagefiles");
+            string repdir = IO.Path.Combine("Testdata", "packagerepository");
+            IPackageRepository rep = new DirectoryPackageRepository("myrep", repdir);
+            Assert.IsNull(rep.GetPackage("mypackageNew1"));
+            rep.AddPackage(package, pkgdir);
+            Assert.IsNull(rep.GetPackage("mypackageNew1"));
+            rep.Refresh();
+            Assert.IsNotNull(rep.GetPackage("mypackageNew1"));
+            this.Cleanup();
+        }
 
         //[TestFixtureTearDown]
         public void Cleanup()
