@@ -24,13 +24,19 @@ namespace Waldi.CLI
                 PullSubOptions subOptions = (PullSubOptions)invokedVerbInstance;
                 if (subOptions.ValidatePackageName())
                 {
-                    Config.Load();
-                    Runner runner = new Runner()
+                    if (!Config.TryLoad())
                     {
-                        LocalRep = Config.LocalRepository,
-                        RemoteRep = Config.RemoteRepository
-                    };
-                    runner.Pull(subOptions.PackageNames[0], subOptions.WithDependencies);
+                        Runner runner = new Runner()
+                        {
+                            LocalRep = Config.LocalRepository,
+                            RemoteRep = Config.RemoteRepository
+                        };
+                        runner.Pull(subOptions.PackageNames[0], subOptions.WithDependencies);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Could not load config from current directory. Is the current directory a waldi project?");
+                    }
                 }
                 else
                 {
@@ -42,13 +48,19 @@ namespace Waldi.CLI
                 ListSubOptions subOptions = (ListSubOptions)invokedVerbInstance;
                 //if (subOptions.ValidateRepositoryName())
                 //{
-                    Config.Load();
+                if (Config.TryLoad())
+                {
                     Runner runner = new Runner()
                     {
                         LocalRep = Config.LocalRepository,
                         RemoteRep = Config.RemoteRepository
                     };
                     runner.List(subOptions.ListLocal, subOptions.ListRemote);
+                }
+                else
+                {
+                    Console.WriteLine("Could not load config from current directory. Is the current directory a waldi project?");
+                }
                 //}
                 //else
                 //{

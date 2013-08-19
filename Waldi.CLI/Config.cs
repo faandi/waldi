@@ -3,6 +3,7 @@ using Waldi.Engine;
 using Waldi.Serialization;
 using Waldi.Repositories;
 using System.Xml.Serialization;
+using IO = System.IO;
 
 namespace Waldi.CLI
 {
@@ -11,13 +12,19 @@ namespace Waldi.CLI
         public static DirectoryPackageRepository LocalRepository { get; set;}
         public static DirectoryPackageRepository RemoteRepository { get; set;}
 
-        public static void Load()
+        public static bool TryLoad()
         {
+            string configpath = "waldiconfig.xml";
+            if (!IO.File.Exists(configpath))
+            {
+                return false;
+            }
             WaldiSerializer.MapType(typeof(ConfigDtoDto),typeof(ConfigDto));
-            string serstr = System.IO.File.ReadAllText("waldiconfig.xml");
+            string serstr = System.IO.File.ReadAllText(configpath);
             ConfigDto serobj  = WaldiSerializer.Deserialize(serstr, typeof(ConfigDto), typeof(ConfigDtoDto)) as ConfigDto;
             Config.LocalRepository = serobj.LocalRepository as DirectoryPackageRepository;
             Config.RemoteRepository = serobj.RemoteRepository as DirectoryPackageRepository;
+            return true;
         }
     }
 
