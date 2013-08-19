@@ -45,9 +45,6 @@
     <Compile Include="Packages\VersionQualifier.cs" />
     <Compile Include="Engine\Dependency.cs" />
     <Compile Include="Engine\DependencyList.cs" />
-    <Compile Include="Engine\File.cs" />
-    <Compile Include="Engine\FileList.cs" />
-    <Compile Include="Engine\FileType.cs" />
     <Compile Include="Engine\INamedItem.cs" />
     <Compile Include="Engine\NamedItemList.cs" />
     <Compile Include="Engine\DependencyResolver.cs" />
