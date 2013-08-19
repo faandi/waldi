@@ -9,10 +9,6 @@ namespace Waldi.Engine
 	{	
 		string Name { get; }
 		PackageList GetPackages();
-
-		//PackageList GetPackages(string name);
-        //PackageList GetPackages(IEnumerable<string> names);
-
 		IPackage GetPackage(string pkgname);
 		void Refresh();
 		void CopyPackageFiles(string pkgname, string pathtodestdir);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Waldi.Engine
 {
+    // TODO remove ?
 	public class File : IEquatable<File>, INamedItem
 	{
 		private string name;

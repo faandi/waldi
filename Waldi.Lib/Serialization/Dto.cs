@@ -16,9 +16,6 @@ namespace Waldi.Serialization
 		public string Description { get; set; }
 		public string Url { get; set; }
 		public bool Enabled { get; set; }
-
-		//[XmlArray("Files"), XmlArrayItem("File")]
-		//public FileList Files { get; set; }
 	}
 
 	[XmlRoot("Package")]

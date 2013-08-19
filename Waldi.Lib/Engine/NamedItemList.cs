@@ -9,13 +9,6 @@ namespace Waldi.Engine
 	{
 		protected HashSet<T> list;
 
-
-//		public T this [int index] {
-//			get {
-//				return this.list [index];	
-//			}
-//		}
-
 		public T this [string name] {
 			get {
 				T p = this.FindByName (name);

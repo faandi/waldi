@@ -50,51 +50,6 @@ namespace Waldi.Engine
 			this.IsOptional = false;
 		}
 
-        // http://stackoverflow.com/questions/290867/how-to-xml-serialize-a-type
-
-        //public XmlSchema GetSchema()
-        //{
-        //    return null;
-        //}
-
-        //public void WriteXml(XmlWriter writer)
-        //{
-        //    if (!string.IsNullOrEmpty(PackageName))
-        //    {
-        //        writer.WriteStartElement("PackageName");
-        //        writer.WriteString(PackageName);
-        //        writer.WriteEndElement();
-        //    }
-        //    if (PackageType != null)
-        //    {
-        //        writer.WriteStartElement("PackageType");
-        //        writer.WriteString(PackageType.ToString());
-        //        writer.WriteEndElement();                
-        //    }
-        //}
-
-        //public void ReadXml(XmlReader reader)
-        //{            
-        //    if (reader.ReadToDescendant("PackageName"))
-        //    {
-        //        //reader.ReadStartElement("PackageName");
-        //        PackageName = reader.ReadString();
-        //        //reader.ReadEndElement();
-        //    }
-
-        //    if (reader.ReadToDescendant("PackageType"))
-        //    {
-        //        //reader.ReadStartElement("PackageType");
-        //        PackageType = Type.GetType(reader.ReadString());
-        //        //reader.ReadEndElement();
-        //    }
-        //}
-        
-        //public override string ToString()
-        //{
-        //    return PackageName + PackageType != null ? "," + PackageType.ToString() : "";
-        //}
-
 		public bool Equals (Dependency other)
 		{
 			if (this == other)

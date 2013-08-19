@@ -14,17 +14,12 @@ namespace Waldi.Packages
 		bool IsMaster { get; }
         NamedItemList<PackageVersion> Versions { get; }
 		DependencyList Dependencies { get; }
-
-        // gehört das nicht ins Project ? nein
 		PackageVersion SelectedVersion { get; set; }
-		
-        // dependency packages
 		PackageList Packages { get; }
 		FeatureList Features { get; }
 
         // Besserer Name für Source ?? ConfigSource ?? PackageConfig ?? 
         // SourceList Sources { get; } (ISource)
-
 
 		// Hier alle features, (von Dependant geforderten Features und User gwählten)
 		// List<Feature> EnabledFeatures { get; }

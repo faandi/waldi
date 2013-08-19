@@ -49,13 +49,7 @@ namespace Waldi.Engine
 						throw new InvalidDependencyException("Could not find dependency '" + d.Name + "'",p , null);
 					}
 					if (!string.IsNullOrEmpty (d.FeatureName))
-					{
-						//depp.Config.EnableFeature (d.FeatureName);
-//						IPackage pack = depp.Packages.FindByName (d.PackageName);
-//						if (pack == null)
-//						{
-//							throw new Exception ("Package not found in packages.");
-//						}
+					{						
 						Feature feat = depp.Features.FindByName (d.FeatureName);
 						if (feat == null)
 						{
@@ -109,7 +103,7 @@ namespace Waldi.Engine
 
         private static PackageVersion GetHighestMatchingVersion(IEnumerable<PackageVersion> versionpool, IEnumerable<PackageVersion> tomatch)
         {
-            // vielleicht die Methode in PackageVersionList?
+            // TODO vielleicht die Methode in PackageVersionList?
             List<PackageVersion> sortedversion = new List<PackageVersion>(versionpool);
             sortedversion.Sort();
             PackageVersion notmatchingversion = null;

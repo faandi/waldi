@@ -30,25 +30,21 @@ namespace Waldi.Serialization
 
         public static string Serialize(Feature obj)
         {
-            //return WaldiSerializer<Feature,FeatureDto>.Serialize(obj);
             return WaldiSerializerInternal.Serialize(obj, typeof(Feature), typeof(FeatureDto));
         }
 
         public static void Serialize(Feature obj, Stream stream)
         {
-            //WaldiSerializer<Feature,FeatureDto>.Serialize(obj, stream);
             WaldiSerializerInternal.Serialize(obj, typeof(Feature), typeof(FeatureDto), stream);
         }
 
         public static string Serialize(IPackage obj)
         {
-            //return WaldiSerializer<IPackage,PackageDto>.Serialize(obj);
             return WaldiSerializerInternal.Serialize(obj, typeof(IPackage), typeof(PackageDto));
         }
 
         public static void Serialize(IPackage obj, Stream stream)
         {
-            //WaldiSerializer<IPackage,PackageDto>.Serialize(obj, stream);
             WaldiSerializerInternal.Serialize(obj, typeof(IPackage), typeof(PackageDto), stream);
         }
 
@@ -56,7 +52,6 @@ namespace Waldi.Serialization
         {
             if (obj is DirectoryPackageRepository)
             {
-                //return WaldiSerializer<DirectoryPackageRepository,DirectoryPackageRepositoryDto>.Serialize(obj as DirectoryPackageRepository);
                 return WaldiSerializerInternal.Serialize(obj, typeof(DirectoryPackageRepository), typeof(DirectoryPackageRepositoryDto));
             }
             throw new ArgumentException("Type is not supported for serialization.", "obj");
@@ -66,7 +61,6 @@ namespace Waldi.Serialization
         {
             if (obj is DirectoryPackageRepository)
             {
-                //WaldiSerializer<DirectoryPackageRepository,DirectoryPackageRepositoryDto>.Serialize(obj as DirectoryPackageRepository, stream);
                 WaldiSerializerInternal.Serialize(obj, typeof(DirectoryPackageRepository), typeof(DirectoryPackageRepositoryDto), stream);
             }
             throw new ArgumentException("Type is not supported for serialization.", "obj");
@@ -84,46 +78,36 @@ namespace Waldi.Serialization
 
         public static Feature DeserializeFeature(string objstr)
         {
-            //return WaldiSerializer<Feature,FeatureDto>.Deserialize(objstr);
             return WaldiSerializerInternal.Deserialize(objstr, typeof(Feature), typeof(FeatureDto)) as Feature;
         }
 
         public static Feature DeserializeFeature(StreamReader stream)
         {
-            //return WaldiSerializer<Feature,FeatureDto>.Deserialize(stream);
             return WaldiSerializerInternal.Deserialize(stream, typeof(Feature), typeof(FeatureDto)) as Feature;
         }
 
         public static IPackage DeserializePackage(string objstr)
         {
-            //return WaldiSerializer<BasicPackage,PackageDto>.Deserialize(objstr);
             return WaldiSerializerInternal.Deserialize(objstr, typeof(BasicPackage), typeof(PackageDto)) as IPackage;
         }
 
         public static IPackage DeserializePackage(StreamReader stream)
         {
-            //return WaldiSerializer<BasicPackage,PackageDto>.Deserialize(stream);
             return WaldiSerializerInternal.Deserialize(stream, typeof(BasicPackage), typeof(PackageDto)) as IPackage;
         }
 
         public static IPackageRepository DeserializePackageRepository(string objstr)
         {
-            //return WaldiSerializer<DirectoryPackageRepository,DirectoryPackageRepositoryDto>.Deserialize(objstr);
             return WaldiSerializerInternal.Deserialize(objstr, typeof(DirectoryPackageRepository), typeof(DirectoryPackageRepositoryDto)) as IPackageRepository;
         }
 
         public static IPackageRepository DeserializePackageRepository(StreamReader stream)
         {
-            //return WaldiSerializer<DirectoryPackageRepository,DirectoryPackageRepositoryDto>.Deserialize(stream);
             return WaldiSerializerInternal.Deserialize(stream, typeof(DirectoryPackageRepository), typeof(DirectoryPackageRepositoryDto)) as IPackageRepository;
         }
     }
 
-    // TODO: <TObj,TSerObj> in die Funktions Definitionen auslagern
     internal static class WaldiSerializerInternal
-        //<TObj,TSerObj>
-        //where TObj : class
-        //where TSerObj : class
     {
         private static bool isInitialized = false;
 
@@ -133,7 +117,6 @@ namespace Waldi.Serialization
             {
                 return;
             }
-            //Mapper.CreateMap<TObj, TSer> ();
 
             Mapper.CreateMap<List<PackageVersionDto>, NamedItemList<PackageVersion>>().ConvertUsing(new NamedItemListPackageVersionConverter());
             Mapper.CreateMap<List<DependencyDto>, DependencyList>().ConvertUsing(new DependencyListConverter());
@@ -168,28 +151,6 @@ namespace Waldi.Serialization
             return sr.ReadToEnd();
         }
 
-        /*
-        public static string Serialize(TObj obj)
-        {
-            using (MemoryStream stream = new MemoryStream())
-            {
-                Serialize(obj, stream);
-                return StreamToString(stream);
-            }
-        }
-
-        public static void Serialize(TObj obj, Stream stream)
-        {			
-            Initialize();
-            TSerObj dto = Mapper.Map<TSerObj>(obj);
-
-            XmlSerializer serializer = new XmlSerializer(typeof(TSerObj));
-            XmlWriterSettings writerset = new XmlWriterSettings();
-            writerset.Indent = true;
-            serializer.Serialize(XmlWriter.Create(stream, writerset), dto);
-        }
-        */
-
         public static string Serialize(object obj, Type objtype, Type serobjtype)
         {
             using (MemoryStream stream = new MemoryStream())
@@ -209,27 +170,6 @@ namespace Waldi.Serialization
             writerset.Indent = true;
             serializer.Serialize(XmlWriter.Create(stream, writerset), dto);
         }
-
-        /*
-        public static TObj Deserialize(string objstr)
-        {
-            Initialize();
-            XmlSerializer s = new XmlSerializer(typeof(TSerObj));
-            using (TextReader reader = new StringReader(objstr))
-            {
-                TSerObj objser = s.Deserialize(reader) as TSerObj;
-                return Mapper.Map<TObj>(objser);
-            }
-        }
-
-        public static TObj Deserialize(StreamReader stream)
-        {			
-            Initialize();
-            XmlSerializer s = new XmlSerializer(typeof(TSerObj));
-            TSerObj objser = s.Deserialize(XmlReader.Create(stream)) as TSerObj;
-            return Mapper.Map<TObj>(objser);
-        }
-        */
 
         public static object Deserialize(string objstr, Type objtype, Type serobjtype)
         {
