@@ -11,8 +11,6 @@ namespace Waldi.Engine
     {
 		public static List<IPackage> OrderByDependencies(PackageList packages)
 		{
-			SortedDictionary<string,Dependency> d = new SortedDictionary<string,Dependency> ();
-
 			List<IPackage> orderedpackages = new List<IPackage>();
 			foreach (IPackage pack in packages)
 			{

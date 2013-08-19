@@ -17,7 +17,8 @@ namespace Waldi.BclExtensions
             {
                 // Attempt to get a list of security permissions from the folder. 
                 // This will raise an exception if the path is read only or do not have access to view the permissions. 
-                System.Security.AccessControl.DirectorySecurity ds = dir.GetAccessControl();
+                // System.Security.AccessControl.DirectorySecurity ds = dir.GetAccessControl();
+                dir.GetAccessControl();
                 return true;
             }
             catch (UnauthorizedAccessException)
@@ -33,18 +34,7 @@ namespace Waldi.BclExtensions
         /// <param name="path">Full Path to Directory.</param>
         public static bool IsWriteable(string path)
         {
-            try
-            {
-                DirectoryInfo dir = new DirectoryInfo(path);
-                // Attempt to get a list of security permissions from the folder. 
-                // This will raise an exception if the path is read only or do not have access to view the permissions. 
-                System.Security.AccessControl.DirectorySecurity ds = dir.GetAccessControl();
-                return true;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return false;
-            }
+            return IsWriteable(new DirectoryInfo(path));
         }
 
 		public static bool IsEmpty(this DirectoryInfo dir)

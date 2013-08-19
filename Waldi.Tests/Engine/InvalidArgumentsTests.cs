@@ -10,14 +10,18 @@ using Waldi.Packages;
 
 namespace Waldi.Tests
 {
+
     [TestFixture]
 	[Category("Various")]
 	public class InvalidArgumentsTests
     {
+        // disable "value is never used" compiler warnings
+        #pragma warning disable 219
+
         [Test]
 		public void SetInvalidFeatureName()
         {
-			ArgumentException ex = Assert.Throws<ArgumentException>(
+			Assert.Throws<ArgumentException>(
 				delegate {
 					Feature feature = new Feature("Invalid-Package+Name");
 				}
