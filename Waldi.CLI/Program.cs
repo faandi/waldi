@@ -24,7 +24,7 @@ namespace Waldi.CLI
                 PullSubOptions subOptions = (PullSubOptions)invokedVerbInstance;
                 if (subOptions.ValidatePackageName())
                 {
-                    if (!Config.TryLoad())
+                    if (Config.TryLoad())
                     {
                         Runner runner = new Runner()
                         {

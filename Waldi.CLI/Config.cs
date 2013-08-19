@@ -14,7 +14,7 @@ namespace Waldi.CLI
 
         public static bool TryLoad()
         {
-            string configpath = "waldiconfig.xml";
+            string configpath = IO.Path.Combine(Environment.CurrentDirectory, "waldiconfig.xml");
             if (!IO.File.Exists(configpath))
             {
                 return false;
