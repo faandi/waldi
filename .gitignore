@@ -12,6 +12,7 @@ TestResults
 *.suo
 *.user
 *.sln.docstates
+*.userprefs
 
 # Build results
 [Dd]ebug/
@@ -112,6 +113,7 @@ UpgradeLog*.XML
 
 # Nunit
 [Tt]est-[Rr]esult*/
+[Tt]est-[Rr]esults*/
 
 # OS junk files
 [Tt]humbs.db
