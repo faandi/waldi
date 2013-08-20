@@ -66,6 +66,7 @@
     <Compile Include="Serialization\Converters.cs" />
     <Compile Include="BclExtensions\UriExtensions.cs" />
     <Compile Include="BclExtensions\Exceptions.cs" />
+    <Compile Include="Engine\Template.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -78,6 +79,5 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Repositories\MultiPackageRepository.cs" />
-    <None Include="Engine\Template.cs" />
   </ItemGroup>
 </Project>

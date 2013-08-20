@@ -41,6 +41,7 @@
     <Compile Include="Serialization\SerializationTests.cs" />
     <Compile Include="TestHelpers\ItemDeployment.cs" />
     <Compile Include="Repositories\DirectoryPackageRepositoryTests.cs" />
+    <Compile Include="Engine\TemplateTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -50,6 +51,7 @@
     <Folder Include="TestHelpers\" />
     <Folder Include="Repositories\" />
     <Folder Include="Testdata\newpackagefiles\" />
+    <Folder Include="Testdata\razortemplates\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -58,6 +60,10 @@
     <None Include="Testdata\packagerepository\package3\package.wpdef" />
     <None Include="Testdata\packagerepository\package4\package.wpdef" />
     <None Include="Testdata\newpackagefiles\mytemplate.cshtml" />
+    <None Include="Testdata\razortemplates\simplestrongly\hellopackageStrongly.cshtml" />
+    <None Include="Testdata\razortemplates\simpleweakly\hellopackageWeakly.cshtml" />
+    <None Include="Testdata\razortemplates\simplewithlayout\hellopackage.cshtml" />
+    <None Include="Testdata\razortemplates\simplewithlayout\layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Waldi.Lib\Waldi.Lib.csproj">
