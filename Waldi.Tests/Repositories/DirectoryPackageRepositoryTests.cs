@@ -104,8 +104,6 @@ namespace Waldi.Tests
             Assert.IsTrue(IO.File.Exists(IO.Path.Combine(repdir, "mypackageNew1", "mytemplate.cshtml")), "Package files do not exist.");
             Assert.IsTrue(IO.File.Exists(IO.Path.Combine(repdir, "mypackageNew1", "package.wpdef")), "Package definition file does not exist.");
             Assert.IsNotNull(rep.GetPackage("mypackageNew1"), "New package not found in repository.");
-
-            this.Cleanup();
         }
 
         [Test]
@@ -117,19 +115,37 @@ namespace Waldi.Tests
             IPackageRepository rep = new DirectoryPackageRepository("myrep", repdir);
             Assert.IsNull(rep.GetPackage("mypackageNew1"));
             rep.AddPackage(package, pkgdir);
-            Assert.IsNull(rep.GetPackage("mypackageNew1"));
             rep.Refresh();
             Assert.IsNotNull(rep.GetPackage("mypackageNew1"));
-            this.Cleanup();
         }
 
-        //[TestFixtureTearDown]
+        [TearDown]
         public void Cleanup()
         {
             string repdir = IO.Path.Combine("Testdata", "packagerepository");
-            IO.File.Delete(IO.Path.Combine(repdir, "mypackageNew1", "mytemplate.cshtml"));
-            IO.File.Delete(IO.Path.Combine(repdir, "mypackageNew1", "package.wpdef"));
-            IO.Directory.Delete(IO.Path.Combine(repdir, "mypackageNew1"));
+            string[] files = new string[]
+            {
+                IO.Path.Combine(repdir, "mypackageNew1", "mytemplate.cshtml"),
+                IO.Path.Combine(repdir, "mypackageNew1", "package.wpdef")
+            };
+            string[] dirs = new string[]
+            {
+                IO.Path.Combine(repdir, "mypackageNew1")
+            };
+            foreach (string path in files)
+            {
+                if (IO.File.Exists(path))
+                {
+                    IO.File.Delete(path);
+                }
+            }
+            foreach (string path in dirs)
+            {
+                if (IO.Directory.Exists(path))
+                {
+                    IO.Directory.Delete(path);
+                }
+            }
         }
 	}
 }

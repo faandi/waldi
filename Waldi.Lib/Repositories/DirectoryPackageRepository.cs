@@ -13,6 +13,7 @@ namespace Waldi.Repositories
 		public string Name { get; private set;}
 		public DirectoryInfo PackageDir { get; private set;}
 		private PackageList packages;
+        private bool allpackagesread = false;
 
 		public DirectoryPackageRepository (string name, string pathtopackagedir) : this(name, new DirectoryInfo(pathtopackagedir))
 		{
@@ -43,21 +44,37 @@ namespace Waldi.Repositories
 
 		public PackageList GetPackages()
 		{
-			if (this.packages == null)
+            if (this.packages == null || !this.allpackagesread)
 			{
 				this.packages = this.ReadRepositoryDir(this.PackageDir);
+                this.allpackagesread = true;
 			}
 			return this.packages;
 		}
 
 		public IPackage GetPackage(string pkgname)
 		{
-			// TODO: only read needed package, not all (if not already done)
-			if (this.packages == null)
-			{
-				this.packages = this.ReadRepositoryDir(this.PackageDir);
-			}
-			return this.packages.FindByName (pkgname);
+			// only read needed package, not all (if not already done)
+			if (this.packages != null)
+            {
+                IPackage pkg = this.packages.FindByName(pkgname);
+                if (pkg != null || this.allpackagesread)
+                {
+                    return pkg;
+                }
+            }
+            DirectoryInfo pkgdir = new DirectoryInfo(Path.Combine(this.PackageDir.FullName, pkgname));
+            if (!pkgdir.Exists)
+            {
+                return null;
+            }
+            IPackage newpkg = this.ReadPackageDir(pkgdir);
+            if (this.packages == null)
+            {
+                this.packages = new PackageList();
+            }
+            this.packages.Add(newpkg);
+            return newpkg;
         }
 
 		public void CopyPackageFiles(string pkgname, string pathtodestdir)
