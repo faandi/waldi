@@ -72,5 +72,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Repositories\MultiPackageRepository.cs" />
+    <None Include="Engine\Template.cs" />
   </ItemGroup>
 </Project>
