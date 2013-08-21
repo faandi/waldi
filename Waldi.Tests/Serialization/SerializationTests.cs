@@ -65,7 +65,7 @@ namespace Waldi.Tests
 		}
 
         [Test]
-        public void SerializeRepository()
+        public void SerializeDirectoryPackageRepository()
         {
             // just make shure test works on different platforms
             string reppath = Path.GetTempPath();
@@ -73,7 +73,22 @@ namespace Waldi.Tests
             // here comes the test
             DirectoryPackageRepository repository = new DirectoryPackageRepository("myrep", reppath);
             string repositorystring = WaldiSerializer.Serialize (repository);
-            string expected = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<PackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>" + reppathuri + "</PackageDir>\r\n</PackageRepository>";
+            string expected = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<DirectoryPackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>" + reppathuri + "</PackageDir>\r\n</DirectoryPackageRepository>";
+            Assert.AreEqual (expected, repositorystring);
+        }
+
+        [Test]
+        public void SerializeMultiPackageRepository()
+        {
+            // just make shure test works on different platforms
+            string reppath = Path.GetTempPath();
+            string reppathuri = (new Uri(reppath)).AbsoluteUri;
+            // here comes the test
+            DirectoryPackageRepository repository1 = new DirectoryPackageRepository("myrep1", reppath);
+            DirectoryPackageRepository repository2 = new DirectoryPackageRepository("myrep2", reppath);
+            MultiPackageRepository repository = new MultiPackageRepository("myrep", repository1, repository2);
+            string repositorystring = WaldiSerializer.Serialize (repository);
+            string expected = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<MultiPackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <Repositories>\r\n    <DirectoryPackageRepository>\r\n      <Name>myrep1</Name>\r\n      <PackageDir>" + reppathuri + "</PackageDir>\r\n    </DirectoryPackageRepository>\r\n    <DirectoryPackageRepository>\r\n      <Name>myrep2</Name>\r\n      <PackageDir>" + reppathuri + "</PackageDir>\r\n    </DirectoryPackageRepository>\r\n  </Repositories>\r\n</MultiPackageRepository>";
             Assert.AreEqual (expected, repositorystring);
         }
 
@@ -113,22 +128,37 @@ namespace Waldi.Tests
 		}
 
         [Test]
-        public void DeserializeRepository()
+        public void DeserializeMultiPackageRepository()
         {
             // just make shure test works on different platforms
             string reppath = Path.GetTempPath();
             string reppathuri = (new Uri(reppath)).AbsoluteUri;
             // here comes the test
-            string repositorystring = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<PackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>" + reppathuri + "</PackageDir>\r\n</PackageRepository>";
+            string repositorystring = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<MultiPackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <Repositories>\r\n    <DirectoryPackageRepository>\r\n      <Name>myrep1</Name>\r\n      <PackageDir>" + reppathuri + "</PackageDir>\r\n    </DirectoryPackageRepository>\r\n    <DirectoryPackageRepository>\r\n      <Name>myrep2</Name>\r\n      <PackageDir>" + reppathuri + "</PackageDir>\r\n    </DirectoryPackageRepository>\r\n  </Repositories>\r\n</MultiPackageRepository>";
+            MultiPackageRepository repository = WaldiSerializer.DeserializePackageRepository (repositorystring) as MultiPackageRepository;
+            DirectoryPackageRepository expected1 = new DirectoryPackageRepository("myrep1", reppath);
+            DirectoryPackageRepository expected2 = new DirectoryPackageRepository("myrep2", reppath);
+            MultiPackageRepository expected = new MultiPackageRepository("myrep", expected1, expected2);
+            Assert.AreEqual (expected, repository);
+        }
+
+        [Test]
+        public void DeserializeDirectoryPackageRepository()
+        {
+            // just make shure test works on different platforms
+            string reppath = Path.GetTempPath();
+            string reppathuri = (new Uri(reppath)).AbsoluteUri;
+            // here comes the test
+            string repositorystring = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<DirectoryPackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>" + reppathuri + "</PackageDir>\r\n</DirectoryPackageRepository>";
             DirectoryPackageRepository repository = WaldiSerializer.DeserializePackageRepository (repositorystring) as DirectoryPackageRepository;
             DirectoryPackageRepository expected = new DirectoryPackageRepository("myrep", Path.GetTempPath());
             Assert.AreEqual (expected, repository);
         }
 
         [Test]
-        public void DeserializeRepositoryLocalUri()
+        public void DeserializeDirectoryPackageRepositoryLocalUri()
         {
-            string repositorystring = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<PackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>file://~/packages/</PackageDir>\r\n</PackageRepository>";
+            string repositorystring = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<DirectoryPackageRepository xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <Name>myrep</Name>\r\n  <PackageDir>file://~/packages/</PackageDir>\r\n</DirectoryPackageRepository>";
             string packagedir = Path.Combine(Directory.GetCurrentDirectory(), "packages");
             if (!Directory.Exists(packagedir))
             {

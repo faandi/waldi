@@ -54,6 +54,10 @@ namespace Waldi.Serialization
             {
                 return WaldiSerializerInternal.Serialize(obj, typeof(DirectoryPackageRepository), typeof(DirectoryPackageRepositoryDto));
             }
+            else if (obj is MultiPackageRepository)
+            {
+                return WaldiSerializerInternal.Serialize(obj, typeof(MultiPackageRepository), typeof(MultiPackageRepositoryDto));
+            }
             throw new ArgumentException("Type is not supported for serialization.", "obj");
         }
 
@@ -62,6 +66,10 @@ namespace Waldi.Serialization
             if (obj is DirectoryPackageRepository)
             {
                 WaldiSerializerInternal.Serialize(obj, typeof(DirectoryPackageRepository), typeof(DirectoryPackageRepositoryDto), stream);
+            }
+            else if (obj is MultiPackageRepository)
+            {
+                WaldiSerializerInternal.Serialize(obj, typeof(MultiPackageRepository), typeof(MultiPackageRepositoryDto), stream);
             }
             throw new ArgumentException("Type is not supported for serialization.", "obj");
         }
@@ -98,7 +106,22 @@ namespace Waldi.Serialization
 
         public static IPackageRepository DeserializePackageRepository(string objstr)
         {
-            return WaldiSerializerInternal.Deserialize(objstr, typeof(DirectoryPackageRepository), typeof(DirectoryPackageRepositoryDto)) as IPackageRepository;
+            // very dirty
+            try 
+            {
+                return  WaldiSerializerInternal.Deserialize(objstr, typeof(DirectoryPackageRepository), typeof(DirectoryPackageRepositoryDto)) as IPackageRepository;
+            }
+            catch
+            {
+            }
+            try 
+            {
+                return  WaldiSerializerInternal.Deserialize(objstr, typeof(MultiPackageRepository), typeof(MultiPackageRepositoryDto)) as IPackageRepository;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public static IPackageRepository DeserializePackageRepository(StreamReader stream)
@@ -122,12 +145,19 @@ namespace Waldi.Serialization
             Mapper.CreateMap<List<DependencyDto>, DependencyList>().ConvertUsing(new DependencyListConverter());
             Mapper.CreateMap<List<FeatureDto>, FeatureList>().ConvertUsing(new FeatureListConverter());
             Mapper.CreateMap<DirectoryPackageRepositoryDto, DirectoryPackageRepository>().ConvertUsing(new DirectoryPackageRepositoryConverter());
+            Mapper.CreateMap<MultiPackageRepositoryDto, MultiPackageRepository>();
+            Mapper.CreateMap<PackageRepositoryDto, IPackageRepository>().ConvertUsing(new PackageRepositoryConverter());;
+            Mapper.CreateMap<PackageRepositoryListDto, List<IPackageRepository>>().ConvertUsing(new PackageRepositoryListConverter());
 
             Mapper.CreateMap<Dependency, DependencyDto>();
             Mapper.CreateMap<PackageVersion, PackageVersionDto>();
             Mapper.CreateMap<IPackage, PackageDto>();
-            Mapper.CreateMap<Feature, FeatureDto>();		
-            Mapper.CreateMap<DirectoryPackageRepository, DirectoryPackageRepositoryDto>().ConvertUsing(new DirectoryPackageRepositoryConverterDto());
+            Mapper.CreateMap<Feature, FeatureDto>();
+            Mapper.CreateMap<DirectoryPackageRepository, DirectoryPackageRepositoryDto>()
+                .ConvertUsing(new DirectoryPackageRepositoryConverterDto());
+            Mapper.CreateMap<MultiPackageRepository, MultiPackageRepositoryDto>();
+            //Mapper.CreateMap<IPackageRepository, PackageRepositoryDto>().ConvertUsing(new PackageRepositoryConverterDto());
+            Mapper.CreateMap<List<IPackageRepository>, PackageRepositoryListDto>().ConvertUsing(new PackageRepositoryListConverterDto());
 
             Mapper.CreateMap<DependencyDto, Dependency>()
 				.ForMember(x => x.PackageName, opt => opt.Ignore())
