@@ -137,14 +137,21 @@ namespace Waldi.Repositories
 		{
 			if (!dir.Exists)
 			{
-				throw new ArgumentException ("Directory does not exist", "path");
+                throw new PackageIoException ("Package directory for package " + dir.Name + " does not exist.");
 			}
 			FileInfo definitionfile = new FileInfo(Path.Combine(dir.FullName,"package.wpdef"));
 			if (definitionfile.Exists)
 			{
 				using (StreamReader stream = new StreamReader(definitionfile.FullName))
 				{
-					return WaldiSerializer.DeserializePackage (stream);
+                    try
+                    {
+					    return WaldiSerializer.DeserializePackage (stream);
+                    }
+                    catch(Exception ex)
+                    {
+                        throw new PackageIoException ("Could not read package definition for package " + dir.Name + ".", dir.Name, ex);
+                    }
 				}
 			}
 			return null;
@@ -154,7 +161,7 @@ namespace Waldi.Repositories
 		{
 			if (!dir.Exists)
 			{
-				throw new ArgumentException ("Directory does not exist", "path");
+				throw new DirectoryNotFoundException("Repository directory does not exist.");
 			}
 			PackageList list = new PackageList ();
 			foreach (DirectoryInfo pdir in dir.EnumerateDirectories())

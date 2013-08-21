@@ -68,6 +68,7 @@
     <Compile Include="BclExtensions\Exceptions.cs" />
     <Compile Include="Engine\Template.cs" />
     <Compile Include="Repositories\MultiPackageRepository.cs" />
+    <Compile Include="Repositories\Exceptions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
