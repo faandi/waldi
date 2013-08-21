@@ -42,6 +42,7 @@
     <Compile Include="TestHelpers\ItemDeployment.cs" />
     <Compile Include="Repositories\DirectoryPackageRepositoryTests.cs" />
     <Compile Include="Engine\TemplateTests.cs" />
+    <Compile Include="Repositories\MultiPackageRepositoryTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -52,6 +53,9 @@
     <Folder Include="Repositories\" />
     <Folder Include="Testdata\newpackagefiles\" />
     <Folder Include="Testdata\razortemplates\" />
+    <Folder Include="Testdata\toolrepository\" />
+    <Folder Include="Testdata\packagerepository2\" />
+    <Folder Include="Testdata\packagerepository2\package21\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -64,6 +68,8 @@
     <None Include="Testdata\razortemplates\simpleweakly\hellopackageWeakly.cshtml" />
     <None Include="Testdata\razortemplates\simplewithlayout\hellopackage.cshtml" />
     <None Include="Testdata\razortemplates\simplewithlayout\layout.cshtml" />
+    <None Include="Testdata\packagerepository2\package21\package.wpdef" />
+    <None Include="Testdata\packagerepository2\package22\package.wpdef" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Waldi.Lib\Waldi.Lib.csproj">
