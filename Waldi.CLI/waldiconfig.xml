@@ -1,11 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Config xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
   <LocalRepository>
-    <Name>tmplocalrep</Name>
+    <Name>local</Name>
     <PackageDir>file://~/packages/</PackageDir>
-  </LocalRepository>
+  </LocalRepository>  
+  
   <RemoteRepository>
-    <Name>tmpremoterep</Name>
-    <PackageDir>file://~/../../../Waldi.Tests/Testdata/packagerepository/</PackageDir>
+    <Name>myrep</Name>
+    <Repositories>
+      <DirectoryPackageRepository>
+        <Name>waldi.web</Name>
+        <PackageDir>file://~/../../../../waldi-repo-web/</PackageDir>
+      </DirectoryPackageRepository>
+      <DirectoryPackageRepository>
+        <Name>waldi.tools</Name>
+        <PackageDir>file://~/../../../../waldi-repo-tools/</PackageDir>
+      </DirectoryPackageRepository>
+    </Repositories>
   </RemoteRepository>
+  
 </Config>
