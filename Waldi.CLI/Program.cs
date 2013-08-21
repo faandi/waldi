@@ -37,7 +37,7 @@ namespace Waldi.CLI
                     }
                     catch(ConfigException ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Runner.PrintError(ex.Message);
                         return (int)ExitCode.ConfigError;
                     }
                     Runner runner = new Runner()
@@ -45,15 +45,15 @@ namespace Waldi.CLI
                         LocalRep = Config.LocalRepository,
                         RemoteRep = Config.RemoteRepository
                     };
-                    try 
-                    {
+                    //try 
+                    //{
                         runner.Pull(subOptions.PackageNames[0], subOptions.WithDependencies);
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        return (int)ExitCode.GeneralError;
-                    }
+                    //}
+                    //catch(Exception ex)
+                    //{
+                    //    Runner.PrintError(ex.Message);
+                    //    return (int)ExitCode.GeneralError;
+                    //}
                     return (int)ExitCode.NoError;
                 }
                 else
@@ -73,7 +73,7 @@ namespace Waldi.CLI
                 }
                 catch(ConfigException ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Runner.PrintError(ex.Message);
                     return (int)ExitCode.ConfigError;
                 }
                 Runner runner = new Runner()
@@ -88,7 +88,7 @@ namespace Waldi.CLI
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Runner.PrintError(ex.Message);
                     return (int)ExitCode.GeneralError;
                 }
                 //}

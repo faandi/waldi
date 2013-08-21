@@ -17,7 +17,7 @@ namespace Waldi.CLI
             IPackage localpkg = this.LocalRep.GetPackage(pkgname);
             if (localpkg != null)
             {
-                Console.Write("{0}Package " + pkgname + " is already in local repository. No action done", Environment.NewLine);
+                PrintInfo("Package " + pkgname + " is already in local repository. No action done.");
                 return;
             }
 
@@ -28,7 +28,7 @@ namespace Waldi.CLI
             }
             catch(PackageNotFoundException ex)
             {
-                Console.Write("Error: " + ex.Message);
+                PrintError(ex);
                 return;
             }
             foreach (string pname in allpkgnames)
@@ -36,17 +36,25 @@ namespace Waldi.CLI
                 IPackage remotepkg = this.RemoteRep.GetPackage(pname);
                 if (remotepkg == null)
                 {
-                    Console.Write("{0}Error: Package " + pname + " not found in remote repository.", Environment.NewLine);
+                    PrintError("Package " + pname + " not found in remote repository.");
                     return;
                 }
                 string tmppkgpath;
                 if (!PathExtensions.GetTempPath(out tmppkgpath))
                 {
-                    throw new Exception("Could not get a temporary directory.");
+                    PrintError("Could not get a temporary directory.");
+                    return;
                 }
                 this.RemoteRep.CopyPackageFiles(pname, tmppkgpath);
-                this.LocalRep.AddPackage(remotepkg, tmppkgpath);
-                Console.Write("{0}Added package " + pname + " to local repository.", Environment.NewLine);
+                if (this.LocalRep.GetPackage(pname) == null)
+                {
+                    this.LocalRep.AddPackage(remotepkg, tmppkgpath);
+                    PrintInfo("Added package " + pname + " to local repository.");
+                }
+                else
+                {
+                    PrintInfo("Package " + pkgname + " is already in local repository.");
+                }
             }
             Console.Write("{0}", Environment.NewLine);
         }
@@ -118,9 +126,29 @@ namespace Waldi.CLI
                     }
                 }
             }
+            // first deps, then package
+            allpkgnames.Reverse();
             return allpkgnames;
         }
 
+        public static void PrintError(Exception ex)
+        {
+            Console.Write("{0}Error: {1}", Environment.NewLine, ex.Message);
+            if (ex.InnerException != null)
+            {
+                Console.Write("{0}Details: {1}", Environment.NewLine, ex.InnerException.Message);
+            }
+        }
+
+        public static void PrintError(string message)
+        {
+            Console.Write("{0}Error: {1}", Environment.NewLine, message);
+        }
+
+        public static void PrintInfo(string message)
+        {
+            Console.Write("{0}{1}", Environment.NewLine, message);
+        }
     }   
 }
 
