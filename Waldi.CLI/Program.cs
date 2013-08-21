@@ -5,7 +5,14 @@ namespace Waldi.CLI
 {
 	class MainClass
 	{
-		public static void Main (string[] args)
+        enum ExitCode : int {
+            NoError = 0,
+            GeneralError = 1,
+            ConfigError = 2,
+            ArgumentError = 3
+        }
+
+		public static int Main (string[] args)
 		{
             object invokedVerbInstance = null;
 
@@ -16,7 +23,7 @@ namespace Waldi.CLI
                 invokedVerbInstance = subOptions;
             }))
             {
-                Environment.Exit(CommandLine.Parser.DefaultExitCodeFail);
+                return (int)ExitCode.ArgumentError;
             }
 
             if (invokedVerbInstance is PullSubOptions)
@@ -24,23 +31,35 @@ namespace Waldi.CLI
                 PullSubOptions subOptions = (PullSubOptions)invokedVerbInstance;
                 if (subOptions.ValidatePackageName())
                 {
-                    if (Config.TryLoad())
+                    try 
                     {
-                        Runner runner = new Runner()
-                        {
-                            LocalRep = Config.LocalRepository,
-                            RemoteRep = Config.RemoteRepository
-                        };
+                        Config.Load();
+                    }
+                    catch(ConfigException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return (int)ExitCode.ConfigError;
+                    }
+                    Runner runner = new Runner()
+                    {
+                        LocalRep = Config.LocalRepository,
+                        RemoteRep = Config.RemoteRepository
+                    };
+                    try 
+                    {
                         runner.Pull(subOptions.PackageNames[0], subOptions.WithDependencies);
                     }
-                    else
+                    catch(Exception ex)
                     {
-                        Console.WriteLine("Could not load config from current directory. Is the current directory a waldi project?");
+                        Console.WriteLine(ex.Message);
+                        return (int)ExitCode.GeneralError;
                     }
+                    return (int)ExitCode.NoError;
                 }
                 else
                 {
                     Console.WriteLine(options.GetUsage(null));
+                    return (int)ExitCode.ArgumentError;
                 }
             }
             else if (invokedVerbInstance is ListSubOptions)
@@ -48,18 +67,29 @@ namespace Waldi.CLI
                 ListSubOptions subOptions = (ListSubOptions)invokedVerbInstance;
                 //if (subOptions.ValidateRepositoryName())
                 //{
-                if (Config.TryLoad())
+                try 
                 {
-                    Runner runner = new Runner()
-                    {
-                        LocalRep = Config.LocalRepository,
-                        RemoteRep = Config.RemoteRepository
-                    };
-                    runner.List(subOptions.ListLocal, subOptions.ListRemote);
+                    Config.Load();
                 }
-                else
+                catch(ConfigException ex)
                 {
-                    Console.WriteLine("Could not load config from current directory. Is the current directory a waldi project?");
+                    Console.WriteLine(ex.Message);
+                    return (int)ExitCode.ConfigError;
+                }
+                Runner runner = new Runner()
+                {
+                    LocalRep = Config.LocalRepository,
+                    RemoteRep = Config.RemoteRepository
+                };
+                try
+                {
+                    runner.List(subOptions.ListLocal, subOptions.ListRemote);
+                    return (int)ExitCode.NoError;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)ExitCode.GeneralError;
                 }
                 //}
                 //else
@@ -70,8 +100,8 @@ namespace Waldi.CLI
             else
             {
                 Console.WriteLine("No Verb.");
+                return (int)ExitCode.ArgumentError;
             }
-
 		}
 	}
 }

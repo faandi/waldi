@@ -7,24 +7,42 @@ using IO = System.IO;
 
 namespace Waldi.CLI
 {
+    public class ConfigException : Exception
+    {
+        public ConfigException(string message) : base(message)
+        {
+        }
+
+        public ConfigException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
+
     public static class Config
     {
         public static IPackageRepository LocalRepository { get; set;}
         public static IPackageRepository RemoteRepository { get; set;}
 
-        public static bool TryLoad()
+        public static void Load()
         {
             string configpath = IO.Path.Combine(Environment.CurrentDirectory, "waldiconfig.xml");
             if (!IO.File.Exists(configpath))
             {
-                return false;
+                throw new ConfigException("Could not find configuration file in current directory.");
             }
             WaldiSerializer.MapType(typeof(ConfigDtoDto),typeof(ConfigDto));
-            string serstr = System.IO.File.ReadAllText(configpath);
-            ConfigDto serobj  = WaldiSerializer.Deserialize(serstr, typeof(ConfigDto), typeof(ConfigDtoDto)) as ConfigDto;
+            ConfigDto serobj;
+            try
+            {
+                string serstr = System.IO.File.ReadAllText(configpath);
+                serobj  = WaldiSerializer.Deserialize(serstr, typeof(ConfigDto), typeof(ConfigDtoDto)) as ConfigDto;
+            }
+            catch(Exception ex)
+            {
+                throw new ConfigException("Could load config from configuration file in current directory.", ex);
+            }
             Config.LocalRepository = serobj.LocalRepository;
             Config.RemoteRepository = serobj.RemoteRepository;
-            return true;
         }
     }
 
