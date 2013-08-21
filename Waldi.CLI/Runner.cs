@@ -97,7 +97,7 @@ namespace Waldi.CLI
             Console.Write("{0} - {1}", pkg.Name, pkg.Description);
         }
 
-        private List<string> GetDependencies(string pkgname, bool recursive = true)
+        private List<string> GetDependencies(string pkgname, bool withdeps = true)
         {
             IPackage pkg = this.RemoteRep.GetPackage(pkgname);
             if (pkg == null)
@@ -108,15 +108,15 @@ namespace Waldi.CLI
             {
                 pkg.Name
             };
-            foreach (Dependency d in pkg.Dependencies)
+            if (withdeps)
             {
-                if (!allpkgnames.Contains(d.Name))
+                foreach (Dependency d in pkg.Dependencies)
                 {
-                    allpkgnames.Add(d.PackageName);
-                }
-                if (recursive)
-                {
-                    List<string> subpkgnames = this.GetDependencies(d.Name, recursive);
+                    if (!allpkgnames.Contains(d.Name))
+                    {
+                        allpkgnames.Add(d.PackageName);
+                    }
+                    List<string> subpkgnames = this.GetDependencies(d.Name, withdeps);
                     foreach (string sd in subpkgnames)
                     {
                         if (!allpkgnames.Contains(d.Name))
