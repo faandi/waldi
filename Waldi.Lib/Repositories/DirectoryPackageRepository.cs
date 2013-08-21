@@ -69,6 +69,10 @@ namespace Waldi.Repositories
                 return null;
             }
             IPackage newpkg = this.ReadPackageDir(pkgdir);
+            if (newpkg == null)
+            {
+                return null;
+            }
             if (this.packages == null)
             {
                 this.packages = new PackageList();
