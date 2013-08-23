@@ -121,16 +121,16 @@ namespace Waldi.CLI
             {
                 foreach (Dependency d in pkg.Dependencies)
                 {
-                    if (!allpkgnames.Contains(d.Name))
+                    if (!allpkgnames.Contains(d.PackageName))
                     {
                         allpkgnames.Add(d.PackageName);
                     }
-                    List<string> subpkgnames = this.GetDependencies(d.Name, withdeps);
-                    foreach (string sd in subpkgnames)
+                    List<string> subpkgnames = this.GetDependencies(d.PackageName, withdeps);
+                    foreach (string subd in subpkgnames)
                     {
-                        if (!allpkgnames.Contains(d.Name))
+                        if (!allpkgnames.Contains(subd))
                         {
-                            allpkgnames.Add(d.PackageName);
+                            allpkgnames.Add(subd);
                         }
                     }
                 }
