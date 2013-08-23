@@ -47,7 +47,8 @@ namespace Waldi.CLI
                     };
                     //try 
                     //{
-                        runner.Pull(subOptions.PackageNames[0], subOptions.WithDependencies);
+                    runner.Pull(subOptions.PackageNames[0], subOptions.WithDependencies);
+                    Console.WriteLine();
                     //}
                     //catch(Exception ex)
                     //{

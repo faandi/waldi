@@ -4,6 +4,7 @@ using Waldi.Packages;
 using System.Collections.Generic;
 using System.IO;
 using Waldi.BclExtensions;
+using Waldi.Lib;
 
 namespace Waldi.CLI
 {
@@ -45,7 +46,15 @@ namespace Waldi.CLI
                     PrintError("Could not get a temporary directory.");
                     return;
                 }
-                this.RemoteRep.CopyPackageFiles(pname, tmppkgpath);
+                try
+                {
+                    this.RemoteRep.CopyPackageFiles(pname, tmppkgpath);
+                }
+                catch(PackageIoException ex)
+                {
+                    PrintError(ex);
+                    return;
+                }
                 if (this.LocalRep.GetPackage(pname) == null)
                 {
                     this.LocalRep.AddPackage(remotepkg, tmppkgpath);
