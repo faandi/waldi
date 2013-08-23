@@ -92,12 +92,12 @@ namespace Waldi.Repositories
 			DirectoryInfo pkgdir = new DirectoryInfo (pkgdirpath);
 			if (!pkgdir.Exists)
 			{
-				throw new DirectoryNotFoundException ();
+                throw new PackageIoException ("Package directory of package " + pkgname + " does not exist: " + pkgdir.FullName, pkgname);
 			}
 			DirectoryInfo destdir = new DirectoryInfo (pathtodestdir);
 			if (!destdir.IsEmpty ())
 			{
-				throw new ArgumentException ("Directory is not empty.", "pathtodestdir");
+                throw new PackageIoException ("Package destination directory is not empty: " + pathtodestdir);
 			}
             pkgdir.CopyTo (destdir.FullName, true);
         }
@@ -125,7 +125,7 @@ namespace Waldi.Repositories
             }
             if (!destdir.IsEmpty ())
             {
-                throw new DirectoryNotEmptyException ("Package destination directory is not empty.",destdir);
+                throw new PackageIoException ("New package directory is not empty: " + destdir.Name);
             }
             sourcedir.CopyTo (destdir.FullName, true);
 
